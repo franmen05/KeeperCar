@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/car_menu" android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/keepercar_home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/my_Car_section"
+            android:title="@string/my_car_section_item">
+            <menu android:id="@+id/my_Car_section_menu">
+
+                <item
+                    android:id="@+id/nav_home44"
+                    android:checked="true"
+                    android:title="Carros 1"
+                android:icon="@drawable/ic_menu_share" />
+
+            </menu>
+        </item>
+        <!-- Sección de configuración -->
+        <item
+            android:id="@+id/configuration_section"
+            android:title="@string/settings_item">
+            <menu>
+
+                <item
+                    android:icon="@drawable/baseline_settings_24"
+                    android:id="@+id/nav_general"
+                    android:title="@string/general"
+
+                    />
+
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@drawable/baseline_error_black_24"
+                    android:title="@string/about" />
+
+
+            </menu>
+        </item>
+    </group>
+</menu>

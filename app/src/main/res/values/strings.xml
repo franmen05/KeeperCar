@@ -1,0 +1,144 @@
+<resources>
+    <string name="app_name">Keeper Car</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+
+<!--    from legacy code-->
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_destail">Detalles</string>
+    <string name="title_activity_add_maint">Agregar Mantenimiento</string>
+    <string name="title_activity_add_veh">Agregar Vehiculo</string>
+    <string name="title_activity_maint_by_type">Tipo de Mantenimiento </string>
+    <string name="title_activity_setting">Configuraciones</string>
+    <string name="title_activity_about">Acerca</string>
+    <string name="action_activity_del">Eliminar Auto</string>
+
+    <string name="title_activity_toolbar">ToolbarActivity</string>
+
+    <string name="ms_maint_exist">El Mantenimiento Existe</string>
+    <string name="ms_maint_saved">El Mantenimiento Guardado</string>
+    <string name="ms_maint_no_saved">El Mantenimiento No Guardado</string>
+    <string name="ms_maint_type_error">No se puedo cargar tipo de  mantenimiento</string>
+    <string name="ms_maint_no_selected">Debe seleccionar un Mantenimiento</string>
+    <string name="ms_maint_field_empty">"No debe dejar campo/s vacios"</string>
+    <string name="ms_veh_no_selected">Debe seleccionar un vehiculo</string>
+    <string name="ms_error_selected_veh">ha ocurrido un error, por  favor seleccione el vehiculo</string>
+    <string name="ms_error_x">ha ocurrido un error</string>
+    <string name="ms_veh_delete">Vehiculo Eliminado Con Exito</string>
+
+
+    <string name="veh_add_error">"No se puedo Guardar el Vehiculo "</string>
+
+
+    <string name="home_item">Inicio</string>
+    <string name="products_item">Productos</string>
+    <string name="cart_item">Carrito</string>
+    <string name="orders_item">Ordenes</string>
+    <string name="invoices_item">Facturas</string>
+    <string name="log_out_item">Cerrar Sesión</string>
+    <string name="settings_item">Configuración</string>
+    <string name="my_car_section_item">Mis Vehiculos</string>
+
+
+
+    <string name="status">Status</string>
+    <string name="date">Introduzca Fecha Actual </string>
+    <string name="date2">Fecha : </string>
+    <string name="insertDistance">Introduzca Distancia</string>
+    <string name="cost">Costo  :</string>
+    <string name="usedLabe">Usado  :</string>
+    <string name="recommendedLabe">Recomendado  :</string>
+    <string name="distanceActualLabe">Kilometraje:</string>
+    <string name="txtBrand">Marca :</string>
+    <string name="txtYear">Año :</string>
+    <string name="unitMeasure">Unidad:</string>
+    <string name="labelModel">Modelo:</string>
+    <string name="currentMileage">Kilometraje Actual :</string>
+    <string name="kilometer">Kilomentros :</string>
+    <string name="mile">Millas :</string>
+    <string name="dailyMileage">Distancia Diaria :</string>
+    <string name="bSave">Guardar</string>
+    <string name="typeMaint">Tipo :</string>
+    <string name="labelDate">Fecha :</string>
+    <string name="note">Notas :</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="general">General</string>
+    <string name="about">Acerca</string>
+    <string name="t">Tipo :</string>
+    <string name="setCost">Introduzca Precio</string>
+    <string name="setLabel">Introduzca </string>
+    <string name="description">Descripción : </string>
+    <string name="setDescripcion">Introduzca Descripcion Mantemiento Realizado</string>
+    <string name="addVehicle">Agregar Vehiculo</string>
+    <string name="addMaintenance">Agregar Mantenimiento</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+
+</resources>

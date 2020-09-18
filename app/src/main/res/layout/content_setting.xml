@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.manveh.view.SettingActivity">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/unitMeasure"
+        android:id="@+id/txt_unit"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/sp_years"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:id="@+id/rbg_distance"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/sp_years"
+        android:layout_alignLeft="@+id/sp_years"
+        android:layout_alignStart="@+id/sp_years" >
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/kilometer"
+            android:id="@+id/rb_km"
+            android:onClick="onRadioButtonClicked"/>
+
+        />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mile"
+            android:id="@+id/rb_mile"
+            android:onClick="onRadioButtonClicked"/>
+
+        />
+    </RadioGroup>
+</LinearLayout>
