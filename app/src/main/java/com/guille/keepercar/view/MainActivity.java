@@ -203,8 +203,8 @@ public class MainActivity extends BaseActivity {
 
                         if (vehicles.size() > 0)
                             createVehicleList(navigationView, vehicles);
-                        else
-                            openAddVeh();
+//                        else
+                           // openAddVeh();
                     }
 
 //                    createMaintTypeList();
@@ -586,24 +586,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    //event
-    public void onClickAddMaintButton(View v) {
-        if (dialog == null)
-            Toast.makeText(this, "No se pudo  cargar ", Toast.LENGTH_LONG).show();
-        else
-            dialog.show();
-    }
 
-    public void onClickAddVehicle(View v) {
-        openAddVeh();
-
-    }
-
-    private void openAddVeh() {
-        Intent myIntent = new Intent(MainActivity.this, AddVehActivity.class);
-        myIntent.putExtra("user", user);
-        startActivity(myIntent);
-        finish();
-    }
 
 }

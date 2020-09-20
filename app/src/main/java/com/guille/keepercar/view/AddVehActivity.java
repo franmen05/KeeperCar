@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.guille.keepercar.MainActivity;
 import com.guille.keepercar.R;
 import com.guille.keepercar.data.model.Brand;
 import com.guille.keepercar.data.model.Configuration;
@@ -63,7 +64,7 @@ public class AddVehActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_veh);
-        setToolbar();
+//        setToolbar();
 
         init();
     }
@@ -75,7 +76,7 @@ public class AddVehActivity extends BaseActivity {
         radioButto= (RadioButton) findViewById(R.id.rb_km);
         radioButto.setText(unitVal);
 
-        createDBConnection();
+//        createDBConnection();
 
         user = Util.getUser();
 
@@ -145,7 +146,7 @@ public class AddVehActivity extends BaseActivity {
             @Override
             public void failure(RetrofitError error) {
 
-                Log.d(TAG, error.toString());
+                Log.e(TAG, error.toString());
 
             }
         });
@@ -165,6 +166,7 @@ public class AddVehActivity extends BaseActivity {
         List<String> r = new ArrayList<>();
 //        List<Brand> list= getSqlHelper().getBrands(getDb());
         for (Brand brand : brands) {
+
             brandMap.put(brand.getName(), brand);
             r.add(brand.getName());
         }
@@ -276,7 +278,7 @@ public class AddVehActivity extends BaseActivity {
     }
 
     private void close() {
-        Intent myIntent = new Intent( AddVehActivity.this,MainActivity.class);
+        Intent myIntent = new Intent( AddVehActivity.this, MainActivity.class);
         startActivity(myIntent);
         finish();
     }

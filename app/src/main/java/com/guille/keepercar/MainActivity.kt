@@ -27,6 +27,7 @@ import com.guille.keepercar.data.model.json.MaintenanceTypeSimple
 import com.guille.keepercar.data.model.json.VehicleMaintenanceTypeSimple
 import com.guille.keepercar.data.ws.api.ServiceFacade
 import com.guille.keepercar.view.AboutActivity
+import com.guille.keepercar.view.AddVehActivity
 import com.guille.keepercar.view.BaseActivity
 import com.guille.keepercar.view.SettingActivity
 import com.guille.keepercar.view.adacter.MaintListAdapter
@@ -125,8 +126,11 @@ class MainActivity : BaseActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+            ), drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -172,20 +176,20 @@ class MainActivity : BaseActivity() {
         //lista  de  mantenimientos que apareceran en el ComboBox de  tipos.
         ServiceFacade.getMaintenanceTypeService().findAll(object : Callback<List<MaintenanceType>> {
 
-                override fun success(maintenanceType: List<MaintenanceType>,response: Response) {
+            override fun success(maintenanceType: List<MaintenanceType>, response: Response) {
 //
 //                            for (MaintenanceType mt : maintenanceType) {
 //                                if (maintenanceTypeTM.get(mt.getName()) == null)
 //                                    getSqlHelper().saveMaintenanceType(mt, getDb());
 //                            }
-                    initMaintenanceTypeTM(maintenanceType)
-                    dialog = createMaintDialogo(maintenanceType)
-                }
+                initMaintenanceTypeTM(maintenanceType)
+                dialog = createMaintDialogo(maintenanceType)
+            }
 
-                override fun failure(error: RetrofitError) {
-                    Toast.makeText(this@MainActivity, "No se pudo  cargar ", Toast.LENGTH_LONG).show()
-                }
-            })
+            override fun failure(error: RetrofitError) {
+                Toast.makeText(this@MainActivity, "No se pudo  cargar ", Toast.LENGTH_LONG).show()
+            }
+        })
 //        }
     }
 
@@ -212,18 +216,30 @@ class MainActivity : BaseActivity() {
 
                 //inicio vaidaciones
                 if (item.isEmpty()) {
-                    Toast.makeText(this@MainActivity,getString(R.string.ms_maint_no_selected),Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.ms_maint_no_selected),
+                        Toast.LENGTH_LONG
+                    ).show()
                     return@OnClickListener
                 }
                 if (maintListAdapter == null) {
-                    Toast.makeText(this@MainActivity,getString(R.string.ms_veh_no_selected),Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.ms_veh_no_selected),
+                        Toast.LENGTH_LONG
+                    ).show()
                     dialog?.dismiss()
                     return@OnClickListener
                 }
                 val type =
                     VehicleMaintenceType(vechiveSelected, maintenanceTypeTM!![item])
                 if (type.maintenanceType == null) {
-                    Toast.makeText(this@MainActivity,getString(R.string.ms_maint_type_error),Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.ms_maint_type_error),
+                        Toast.LENGTH_LONG
+                    ).show()
                     return@OnClickListener
                 }
 
@@ -231,31 +247,43 @@ class MainActivity : BaseActivity() {
                 if (!maintListAdapter.exist(type.maintenanceType.name)) {
 
                     //                            vechiveSelected.setMaintenanceType(maintListAdapter.getTypeList());
-                    val vm =VehicleMaintenanceTypeSimple(vechiveSelected!!.id)
-                    val t: MutableList<MaintenanceTypeSimple> =ArrayList()
-                    val mts =MaintenanceTypeSimple(type.maintenanceType.id)
+                    val vm = VehicleMaintenanceTypeSimple(vechiveSelected!!.id)
+                    val t: MutableList<MaintenanceTypeSimple> = ArrayList()
+                    val mts = MaintenanceTypeSimple(type.maintenanceType.id)
                     mts.distance = type.maintenanceType.distanceToApply
                     mts.name = type.maintenanceType.name
                     t.add(mts)
                     vm.types = t
-                    vehicleService.addMaintByVeh(vm,object : Callback<String?> {
-                            override fun success(s: String?,response: Response) {
+                    vehicleService.addMaintByVeh(vm, object : Callback<String?> {
+                        override fun success(s: String?, response: Response) {
 
-                                //                                    getSqlHelper().saveMaintenanceTypeByVehicle(type, db);
-                                //                                    createMaintTypeList();
-                                user = null
-                                loadNow = true
+                            //                                    getSqlHelper().saveMaintenanceTypeByVehicle(type, db);
+                            //                                    createMaintTypeList();
+                            user = null
+                            loadNow = true
 //                                loadUser()
-                                Toast.makeText(this@MainActivity,getString(R.string.ms_maint_saved),Toast.LENGTH_LONG).show()
-                            }
+                            Toast.makeText(
+                                this@MainActivity,
+                                getString(R.string.ms_maint_saved),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
 
-                            override fun failure(error: RetrofitError) {
-                                Toast.makeText(this@MainActivity,getString(R.string.ms_maint_no_saved),Toast.LENGTH_LONG).show()
-                                Log.e("$TAG save tipo",error.toString())
-                            }
-                        })
+                        override fun failure(error: RetrofitError) {
+                            Toast.makeText(
+                                this@MainActivity,
+                                getString(R.string.ms_maint_no_saved),
+                                Toast.LENGTH_LONG
+                            ).show()
+                            Log.e("$TAG save tipo", error.toString())
+                        }
+                    })
                 } else {
-                    Toast.makeText(this@MainActivity,getString(R.string.ms_maint_exist),Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.ms_maint_exist),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 dialog?.dismiss()
             }
@@ -272,6 +300,23 @@ class MainActivity : BaseActivity() {
         for (m in o)  //            if (this.maintenanceTypeTM.get(m.getName()) != null)
             r.add(m.name)
         return r
+    }
+
+    //event
+    fun onClickAddMaintButton(v: View?) {
+        if (dialog == null) Toast.makeText(this, "No se pudo  cargar ", Toast.LENGTH_LONG)
+            .show() else dialog!!.show()
+    }
+
+    fun onClickAddVehicle(v: View?) {
+        openAddVeh()
+    }
+
+    private fun openAddVeh() {
+        val myIntent = Intent(this@MainActivity, AddVehActivity::class.java)
+        myIntent.putExtra("user", user)
+        startActivity(myIntent)
+        finish()
     }
 
 }

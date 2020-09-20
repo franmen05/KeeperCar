@@ -38,7 +38,8 @@
                 android:layout_height="wrap_content"
                 app:fab_colorNormal="@color/white"
                 app:fab_title="@string/addVehicle"
-                app:fab_icon="@drawable/baseline_directions_black_24"
+                android:onClick="onClickAddVehicle"
+                app:fab_icon="@drawable/outline_directions_car_black_24"
                 />
 
             <com.getbase.floatingactionbutton.FloatingActionButton
