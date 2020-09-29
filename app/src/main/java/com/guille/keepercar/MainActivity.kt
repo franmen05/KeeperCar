@@ -6,10 +6,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -47,7 +44,7 @@ class MainActivity : BaseActivity() {
 
 
     //ui component
-    private val drawerLayout: DrawerLayout? = null
+    private lateinit var drawerLayout: DrawerLayout
     private lateinit var navigationView: NavigationView
     /**
      * dialogo para  agregar manteniminetos.
@@ -60,8 +57,7 @@ class MainActivity : BaseActivity() {
     /**
      * Lista  de los mantenimientos  agregados  por el usuario.
      */
-    private val listView: ListView? = null
-
+    private lateinit var listView: ListView
 
     //adapter
 
@@ -95,7 +91,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        navigationView = findViewById<View>(R.id.nav_view) as NavigationView
 
 //        val toolbar: Toolbar = findViewById(R.id.toolbar)
 //        setSupportActionBar(toolbar)
@@ -117,8 +112,11 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onInit(){
+
         buildNavMenu()
+
         loadUser()
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -127,8 +125,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun buildNavMenu() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        navigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -138,12 +136,10 @@ class MainActivity : BaseActivity() {
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-
-//        navView = findViewById<View>(R.id.nav_view) as NavigationView
+        navigationView.setupWithNavController(navController)
 
         //configuracion menu
-        val menuItem: MenuItem =navView.getMenu().findItem(R.id.configuration_section)
+        val menuItem: MenuItem =navigationView.getMenu().findItem(R.id.configuration_section)
         val config = menuItem.subMenu.findItem(R.id.nav_general)
         config.setOnMenuItemClickListener {
             val myIntent = Intent(this@MainActivity, SettingActivity::class.java)
@@ -159,6 +155,8 @@ class MainActivity : BaseActivity() {
             true
         }
     }
+
+
     private fun initMaintenanceTypeTM(types: List<MaintenanceType>) {
         if (maintenanceTypeTM == null) {
 //            this.maintenanceTypeTM = getSqlHelper().getMaintenanceTypeMap(db);
@@ -313,7 +311,7 @@ class MainActivity : BaseActivity() {
      */
     private fun loadUser() {
         if (user == null) {
-            val deviceId = deviceId
+//            val deviceId = deviceId
             userService.findById(deviceId, object : Callback<User?> {
                 override fun success(_user: User?, response: Response) {
                     if (_user == null) {
@@ -327,8 +325,8 @@ class MainActivity : BaseActivity() {
                     if (vehicles != null) {
                         if (vehicles.size > 0)
                             createVehicleList(navigationView, vehicles)
-                        //                        else
-                        // openAddVeh();
+                        else
+                         openAddVeh()
                     }
 
 //                    createMaintTypeList();
@@ -391,11 +389,12 @@ class MainActivity : BaseActivity() {
 //                    return false;
 //                }
 //            });
-            mi.setOnMenuItemClickListener { item -> //                    Toast.makeText(MainActivity.this, vechiveSelected.getBrand().getName(), Toast.LENGTH_LONG).show();
+            mi.setOnMenuItemClickListener { item ->
+                //                    Toast.makeText(MainActivity.this, vechiveSelected.getBrand().getName(), Toast.LENGTH_LONG).show();
                 vechiveSelected = vehicleTreeMap[item.title]
                 createMaintTypeList()
-//                updateMainCard(vechiveSelected)
-                drawerLayout!!.closeDrawer(GravityCompat.START)
+                vechiveSelected?.let { updateMainCard(it) }
+                drawerLayout.closeDrawer(GravityCompat.START)
                 false
             }
 
@@ -454,11 +453,24 @@ class MainActivity : BaseActivity() {
     //        listView.setAdapter(maintListAdapter);
     //
     //    }
+
+    private fun updateMainCard(v: Vehicle) {
+
+        val title = findViewById<TextView>(R.id.txt_type_maint)
+        val distance = findViewById<TextView>(R.id.txt_distance_actual_value)
+        val distanceDaily =findViewById<TextView>(R.id.txt_distance_daily_value_card_status)
+
+        title.text = v.brand.name
+        distance.text = v.distanceActual.toString()
+        distanceDaily.text = v.distanceDaiLy.toString()
+    }
+
     private fun createMaintTypeList() {
 
         //donde  se crea la lista
         maintListAdapter = MaintListAdapter(this, sqlHelper, vechiveSelected, vehicleService)
-        listView!!.adapter = maintListAdapter
+        listView= findViewById(R.id.maint_list1)
+        listView.adapter = maintListAdapter
     }
 
     private fun createMaintTypeList(fromServer: Boolean) {

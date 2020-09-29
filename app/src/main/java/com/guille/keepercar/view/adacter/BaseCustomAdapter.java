@@ -17,9 +17,11 @@ public abstract class BaseCustomAdapter extends BaseAdapter {
 
     public BaseCustomAdapter(Context context,SQLHelper sqlHelper){
         setContext(context);
-        setSqlHelper(sqlHelper);
+//        setSqlHelper(sqlHelper);
 
     }
+
+
 
 
     public void setSqlHelper(SQLHelper sqlHelper) {
