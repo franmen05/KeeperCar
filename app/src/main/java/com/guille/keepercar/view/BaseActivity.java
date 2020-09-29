@@ -30,6 +30,7 @@ import retrofit.client.Response;
 public class BaseActivity extends AppCompatActivity {
 
     public static final int APP_ID = 234324543;
+
     //db
     private SQLHelper sqlHelper;
     private SQLiteDatabase db;
@@ -85,8 +86,8 @@ public class BaseActivity extends AppCompatActivity {
 
     protected String getDeviceId() {
 //        TelephonyManager mTelephonyManager=(TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-//        return mTelephonyManager.getSubscriberId();
-        return "";
+        //        return mTelephonyManager.getDeviceId();
+        return android.provider.Settings.Secure.getString(getApplicationContext().getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
     }
     @Override
     protected void onDestroy() {

@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -26,6 +27,7 @@ import com.guille.keepercar.data.model.VehicleMaintenceType
 import com.guille.keepercar.data.model.json.MaintenanceTypeSimple
 import com.guille.keepercar.data.model.json.VehicleMaintenanceTypeSimple
 import com.guille.keepercar.data.ws.api.ServiceFacade
+import com.guille.keepercar.logic.Util
 import com.guille.keepercar.view.AboutActivity
 import com.guille.keepercar.view.AddVehActivity
 import com.guille.keepercar.view.BaseActivity
@@ -46,11 +48,13 @@ class MainActivity : BaseActivity() {
 
     //ui component
     private val drawerLayout: DrawerLayout? = null
-    private val navigationView: NavigationView? = null
+    private lateinit var navigationView: NavigationView
     /**
      * dialogo para  agregar manteniminetos.
      */
     private var dialog: AlertDialog? = null
+
+    private lateinit var menuCar: Menu
     private lateinit var spMaintenceTypes: BetterSpinner
 
     /**
@@ -65,7 +69,7 @@ class MainActivity : BaseActivity() {
     /**
      * Mantenimientos  agregados  por el usuario.
      */
-    private val maintListAdapter: MaintListAdapter? = null
+    private lateinit var maintListAdapter: MaintListAdapter
 
     /**
      * Lista  de los mantenimientos  que se muestran en el dialogo  para  agregar tipos de  mantenimientos
@@ -77,8 +81,8 @@ class MainActivity : BaseActivity() {
 //    private val db: SQLiteDatabase? = null
 
     private var maintenanceTypeTM: TreeMap<String, MaintenanceType>? = null
-    private val vehicleTreeMap: TreeMap<String, Vehicle>? = null
-    private val vechiveSelected: Vehicle? = null
+    private lateinit var vehicleTreeMap: TreeMap<String, Vehicle>
+    private var vechiveSelected: Vehicle? = null
     private var user: User? = null
 
 
@@ -91,6 +95,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        navigationView = findViewById<View>(R.id.nav_view) as NavigationView
 
 //        val toolbar: Toolbar = findViewById(R.id.toolbar)
 //        setSupportActionBar(toolbar)
@@ -113,6 +118,7 @@ class MainActivity : BaseActivity() {
 
     private fun onInit(){
         buildNavMenu()
+        loadUser()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -261,7 +267,7 @@ class MainActivity : BaseActivity() {
                             //                                    createMaintTypeList();
                             user = null
                             loadNow = true
-//                                loadUser()
+                            loadUser()
                             Toast.makeText(
                                 this@MainActivity,
                                 getString(R.string.ms_maint_saved),
@@ -300,6 +306,178 @@ class MainActivity : BaseActivity() {
         for (m in o)  //            if (this.maintenanceTypeTM.get(m.getName()) != null)
             r.add(m.name)
         return r
+    }
+
+    /**
+     * Carga de usuario
+     */
+    private fun loadUser() {
+        if (user == null) {
+            val deviceId = deviceId
+            userService.findById(deviceId, object : Callback<User?> {
+                override fun success(_user: User?, response: Response) {
+                    if (_user == null) {
+                        createUser(deviceId)
+                        return
+                    }
+                    Log.d(TAG, _user.toString())
+                    user = _user
+                    Util.setUser(user)
+                    val vehicles = _user.vehicleCollection
+                    if (vehicles != null) {
+                        if (vehicles.size > 0)
+                            createVehicleList(navigationView, vehicles)
+                        //                        else
+                        // openAddVeh();
+                    }
+
+//                    createMaintTypeList();
+                }
+
+                override fun failure(error: RetrofitError) {
+
+//                    createMaintTypeList();
+                }
+            })
+        } else {
+            createMaintTypeList()
+        }
+    }
+
+    private fun createUser(deviceId: String) {
+        val u = User()
+        u.id = deviceId
+        u.name = deviceId
+        userService.add(u, object : Callback<User?> {
+            override fun success(user: User?, response: Response) {
+                loadUser()
+            }
+
+            override fun failure(error: RetrofitError) {
+                Toast.makeText(this@MainActivity, getString(R.string.ms_error_x), Toast.LENGTH_LONG)
+                    .show()
+            }
+        })
+    }
+
+
+    /**
+     * crea  lista de  vehiculos
+     *
+     * @param view
+     * @param vehicles
+     */
+    private fun createVehicleList(view: NavigationView, vehicles: List<Vehicle>) {
+        vehicleTreeMap = TreeMap()
+        menuCar = view.menu
+        val menuItem: MenuItem = menuCar.findItem(R.id.my_Car_section)
+        val m = menuItem.subMenu
+        m.clear()
+        var i = 1
+        for (v in vehicles) {
+            Log.d(TAG, v.toString())
+
+//            VehicleUtil.updateDistance(v);
+            if ("DISABLE" == v.status) continue
+            val mi = m.add(i.toString() + " - " + v.brand.name + " - " + v.carModel)
+                .setIcon(R.drawable.baseline_directions_24)
+            vehicleTreeMap[i.toString() + " - " + v.brand.name + " - " + v.carModel] = v
+            i++
+
+//            view.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//                    Toast.makeText(MainActivity.this, "long  click", Toast.LENGTH_LONG).show();
+//                    return false;
+//                }
+//            });
+            mi.setOnMenuItemClickListener { item -> //                    Toast.makeText(MainActivity.this, vechiveSelected.getBrand().getName(), Toast.LENGTH_LONG).show();
+                vechiveSelected = vehicleTreeMap[item.title]
+                createMaintTypeList()
+//                updateMainCard(vechiveSelected)
+                drawerLayout!!.closeDrawer(GravityCompat.START)
+                false
+            }
+
+
+//            Almacenamientos en la base de datos.
+//
+//            if (getSqlHelper().getMaintenanceTypeByVehicle(v, getDb()).size() != v.getMaintenanceType().size()) {
+//
+//                getSqlHelper().deleteMaintenanceTypeByVehicle(v, getDb());
+//                Log.i(TAG, v.toString());
+//                Log.i(TAG, " getMaintenanceType() : " + v.getMaintenanceType());
+//
+//                for (MaintenanceType my : v.getMaintenanceType()) {
+//
+//                    final VehicleMaintenceType type = new VehicleMaintenceType(v, my);
+//                    getSqlHelper().saveMaintenanceTypeByVehicle(type, db);
+//                }
+//            }
+//
+//            service.add(v, new Callback<String>() {
+//                @Override
+//                public void success(String s, Response response) {
+////                    Log.d(TAG, s);
+//                }
+//
+//                @Override
+//                public void failure(RetrofitError error) {
+//                    Log.e(TAG, error.toString());
+//                }
+//            });
+
+
+//            service.delete(v.getId(), new Callback<String>() {
+//                @Override
+//                public void success(String s, Response response) {
+////                    Log.d(TAG, s);
+//                }
+//
+//                @Override
+//                public void failure(RetrofitError error) {
+//                    Log.e(TAG, error.toString());
+//                }
+//            });
+        }
+        if (loadNow) {
+            createMaintTypeList(loadNow)
+            loadNow = false
+        }
+    }
+
+
+    //        private void createMaintTypeList(List<MaintenanceType> maintenanceTypes) {
+    //
+    //        //donde  se crea la lista
+    //        maintListAdapter = new MaintListAdapter(this, getSqlHelper(), vechiveSelected,maintenanceTypes);
+    //        listView.setAdapter(maintListAdapter);
+    //
+    //    }
+    private fun createMaintTypeList() {
+
+        //donde  se crea la lista
+        maintListAdapter = MaintListAdapter(this, sqlHelper, vechiveSelected, vehicleService)
+        listView!!.adapter = maintListAdapter
+    }
+
+    private fun createMaintTypeList(fromServer: Boolean) {
+        if (fromServer) {
+            vehicleService.findById(vechiveSelected!!.id, object : Callback<Vehicle> {
+                override fun success(vehicle: Vehicle, response: Response) {
+                    vechiveSelected = vehicle
+                    createMaintTypeList()
+                }
+
+                override fun failure(error: RetrofitError) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.ms_error_selected_veh),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+        }
     }
 
     //event

@@ -2,6 +2,8 @@ package com.guille.keepercar.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,6 +20,12 @@ public class User implements Cloneable,Serializable {
 
     private List<Vehicle> vehicleCollection;
 
+    public User(String id) {
+        this.id = id;
+    }
+
+    public User() {
+    }
 
     public String getId() {
         return id;
@@ -61,6 +69,7 @@ public class User implements Cloneable,Serializable {
     }
 
 
+    @NotNull
     @Override
     public String toString() {
         return "User{" +
@@ -72,6 +81,7 @@ public class User implements Cloneable,Serializable {
                 '}';
     }
 
+    @NotNull
     public User clone() {
 
         User u = new User();

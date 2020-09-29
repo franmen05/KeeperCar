@@ -9,7 +9,7 @@ object ApiConstants {
     //    public static final String URL_BASE="http://10.0.0.11:8084";
     //    public static final String URL_BASE="http://edeals.do:8080";
     private const val URL_WS = "/"
-    const val URL_USER_VEH = URL_WS + "user/vehicle/"
+    const val URL_USER_VEH =  "${URL_WS}user/vehicle/"
 
     //parametros
     const val PARAM_ID = "id"

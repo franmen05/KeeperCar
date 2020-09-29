@@ -31,7 +31,9 @@ public class Util {
     }
 
     public static User getUser() {
-        if (user == null) return new User();
+        if (user == null) {
+            return new User();
+        }
         return user;
     }
 

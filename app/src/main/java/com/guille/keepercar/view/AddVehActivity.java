@@ -262,6 +262,7 @@ public class AddVehActivity extends BaseActivity {
                     @Override
                     public void failure(RetrofitError error) {
                         Toast.makeText(AddVehActivity.this, getString(R.string.veh_add_error), Toast.LENGTH_LONG).show();
+                        Log.e(TAG,error.getMessage());
                     }
                 });
 //                getSqlHelper().saveVehicle(vehicle, getDb());
@@ -272,6 +273,7 @@ public class AddVehActivity extends BaseActivity {
             public void failure(RetrofitError error) {
 
                 Toast.makeText(AddVehActivity.this, "No se puedo Guardar el Vehiculo ", Toast.LENGTH_LONG).show();
+                Log.e(TAG,error.getMessage());
             }
         });
 

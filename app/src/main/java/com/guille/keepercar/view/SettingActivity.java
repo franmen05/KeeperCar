@@ -1,6 +1,7 @@
 package com.guille.keepercar.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -16,6 +17,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class SettingActivity extends BaseActivity {
+
+    protected static final String TAG = "SettingActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +40,11 @@ public class SettingActivity extends BaseActivity {
 
     public void setConfig() {
 
-        String unitVal = Util.getConfig(Configuration.UNIT_KEY).trim();
+        String unitVal = Util.getConfig(Configuration.UNIT_KEY);
 
         if(unitVal==null) return;
+
+        unitVal=unitVal.trim();
 
         if (unitVal.equalsIgnoreCase("km")) {
             Toast.makeText(this, "Kilometros", Toast.LENGTH_LONG).show();
@@ -77,7 +83,6 @@ public class SettingActivity extends BaseActivity {
                     saveConfig(c);
                     Toast.makeText(this, "millas", Toast.LENGTH_LONG).show();
                 }
-
                 break;
         }
     }
@@ -92,6 +97,7 @@ public class SettingActivity extends BaseActivity {
 
             @Override
             public void failure(RetrofitError error) {
+                Log.e(TAG,error.getMessage());
 
             }
         });
