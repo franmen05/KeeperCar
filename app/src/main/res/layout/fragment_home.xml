@@ -47,6 +47,7 @@
                 android:layout_height="wrap_content"
                 app:fab_colorNormal="@color/white"
                 app:fab_title="@string/addMaintenance"
+                android:onClick="onClickAddMaintButton"
                 app:fab_icon="@drawable/outline_build_black_24"
                 />
 

@@ -49,8 +49,7 @@ class MainActivity : BaseActivity() {
     /**
      * dialogo para  agregar manteniminetos.
      */
-    private var dialog: AlertDialog? = null
-
+    private lateinit var dialog: AlertDialog
     private lateinit var menuCar: Menu
     private lateinit var spMaintenceTypes: BetterSpinner
 
@@ -58,8 +57,6 @@ class MainActivity : BaseActivity() {
      * Lista  de los mantenimientos  agregados  por el usuario.
      */
     private lateinit var listView: ListView
-
-    //adapter
 
     //adapter
     /**
@@ -116,6 +113,7 @@ class MainActivity : BaseActivity() {
         buildNavMenu()
 
         loadUser()
+        apiLoaderMaintTypeList()
 
     }
 
@@ -202,7 +200,7 @@ class MainActivity : BaseActivity() {
      *
      * @return
      */
-    fun createMaintDialogo(types: List<MaintenanceType>): AlertDialog? {
+    fun createMaintDialogo(types: List<MaintenanceType>): AlertDialog {
         initMaintenanceTypeTM(types)
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.title_activity_add_maint)
@@ -210,7 +208,7 @@ class MainActivity : BaseActivity() {
         val v = inflater.inflate(R.layout.activity_add_maint, null)
         spMaintenceTypes = v.findViewById<View>(R.id.sp_type_maint) as BetterSpinner
         //        spMaintenceTypes.setOnItemSelectedListener(new MaintanceTypeAV());
-        typesAdapter = ArrayAdapter<String>(this, R.layout.spinner_list_item, getName(types))
+        typesAdapter = ArrayAdapter(this, R.layout.spinner_list_item, getName(types))
         spMaintenceTypes.setAdapter(typesAdapter)
         builder.setView(v)
         val bSave = v.findViewById<View>(R.id.b_save) as Button
@@ -220,30 +218,17 @@ class MainActivity : BaseActivity() {
 
                 //inicio vaidaciones
                 if (item.isEmpty()) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        getString(R.string.ms_maint_no_selected),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(applicationContext,getString(R.string.ms_maint_no_selected),Toast.LENGTH_LONG).show()
                     return@OnClickListener
                 }
                 if (maintListAdapter == null) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        getString(R.string.ms_veh_no_selected),
-                        Toast.LENGTH_LONG
-                    ).show()
-                    dialog?.dismiss()
+                    Toast.makeText(this@MainActivity,getString(R.string.ms_veh_no_selected),Toast.LENGTH_LONG).show()
+                    dialog.dismiss()
                     return@OnClickListener
                 }
-                val type =
-                    VehicleMaintenceType(vechiveSelected, maintenanceTypeTM!![item])
+                val type =VehicleMaintenceType(vechiveSelected, maintenanceTypeTM!![item])
                 if (type.maintenanceType == null) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        getString(R.string.ms_maint_type_error),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@MainActivity,getString(R.string.ms_maint_type_error),Toast.LENGTH_LONG).show()
                     return@OnClickListener
                 }
 
@@ -266,30 +251,18 @@ class MainActivity : BaseActivity() {
                             user = null
                             loadNow = true
                             loadUser()
-                            Toast.makeText(
-                                this@MainActivity,
-                                getString(R.string.ms_maint_saved),
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(this@MainActivity,getString(R.string.ms_maint_saved),Toast.LENGTH_LONG).show()
                         }
 
                         override fun failure(error: RetrofitError) {
-                            Toast.makeText(
-                                this@MainActivity,
-                                getString(R.string.ms_maint_no_saved),
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(this@MainActivity,getString(R.string.ms_maint_no_saved),Toast.LENGTH_LONG).show()
                             Log.e("$TAG save tipo", error.toString())
                         }
                     })
                 } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        getString(R.string.ms_maint_exist),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@MainActivity,getString(R.string.ms_maint_exist),Toast.LENGTH_LONG).show()
                 }
-                dialog?.dismiss()
+                dialog.dismiss()
             }
         )
         return builder.create()
@@ -326,7 +299,7 @@ class MainActivity : BaseActivity() {
                         if (vehicles.size > 0)
                             createVehicleList(navigationView, vehicles)
                         else
-                         openAddVeh()
+                            openAddVeh()
                     }
 
 //                    createMaintTypeList();
@@ -446,13 +419,13 @@ class MainActivity : BaseActivity() {
     }
 
 
-    //        private void createMaintTypeList(List<MaintenanceType> maintenanceTypes) {
-    //
-    //        //donde  se crea la lista
-    //        maintListAdapter = new MaintListAdapter(this, getSqlHelper(), vechiveSelected,maintenanceTypes);
-    //        listView.setAdapter(maintListAdapter);
-    //
-    //    }
+    private fun createMaintTypeList(maintenanceTypes: List<MaintenanceType>) {
+
+        //donde  se crea la lista
+//        maintListAdapter = new MaintListAdapter(this, getSqlHelper(), vechiveSelected,maintenanceTypes);
+//        listView.setAdapter(maintListAdapter);
+
+    }
 
     private fun updateMainCard(v: Vehicle) {
 
@@ -494,8 +467,10 @@ class MainActivity : BaseActivity() {
 
     //event
     fun onClickAddMaintButton(v: View?) {
-        if (dialog == null) Toast.makeText(this, "No se pudo  cargar ", Toast.LENGTH_LONG)
-            .show() else dialog!!.show()
+        if (dialog == null)
+            Toast.makeText(this, "No se pudo  cargar ", Toast.LENGTH_LONG).show()
+        else
+            dialog!!.show()
     }
 
     fun onClickAddVehicle(v: View?) {

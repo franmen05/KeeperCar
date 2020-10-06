@@ -174,7 +174,7 @@ public class MaintListAdapter extends BaseCustomAdapter {
             }
         });
 
-        int size=getSqlHelper().getCountMaintenanceByType(type,getDb());
+        int size=1;//getSqlHelper().getCountMaintenanceByType(type,getDb());
         holder.recordCount.setText(String.valueOf(size));
 
         view.setTag(holder);
