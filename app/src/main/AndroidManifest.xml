@@ -46,6 +46,9 @@
         <activity
             android:name=".view.AddVehActivity"
             android:label="@string/title_activity_add_veh" />
+        <activity
+            android:name=".view.MaintByTypeActivity"
+            android:label="@string/typeMaint" />
 
     </application>
 

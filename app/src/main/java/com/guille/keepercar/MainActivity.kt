@@ -37,11 +37,9 @@ import retrofit.client.Response
 import java.util.*
 
 class MainActivity : BaseActivity() {
+
     private val TAG = "MainActivity"
-
     private lateinit var appBarConfiguration: AppBarConfiguration
-
-
 
     //ui component
     private lateinit var drawerLayout: DrawerLayout
@@ -71,19 +69,16 @@ class MainActivity : BaseActivity() {
 
     //db
     private val sqlHelper: SQLHelper? = null
-//    private val db: SQLiteDatabase? = null
 
     private var maintenanceTypeTM: TreeMap<String, MaintenanceType>? = null
     private lateinit var vehicleTreeMap: TreeMap<String, Vehicle>
     private var vechiveSelected: Vehicle? = null
     private var user: User? = null
 
-
     // servicios
     //    private ApiAdapter<MaintenanceTypeService> maintTypeApiAdapter;
     private var loadNow = false
 //    private val vehicleService = getVehicleService()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +109,6 @@ class MainActivity : BaseActivity() {
 
         loadUser()
         apiLoaderMaintTypeList()
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

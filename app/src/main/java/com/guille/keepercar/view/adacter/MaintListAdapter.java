@@ -47,21 +47,18 @@ public class MaintListAdapter extends BaseCustomAdapter {
     public MaintListAdapter(Context context,SQLHelper sqlHelper,Vehicle v,VehicleService service){
         super(context, sqlHelper);
 
-        typesTM = new TreeMap<>();
+        typesTM  = new TreeMap<>();
         mInflater= LayoutInflater.from(context);
-        this.vehicleService=service;
+        this.vehicleService= service;
 //        typeList = getSqlHelper().getMaintenanceTypeByVehicle(v, getDb());
         typeList = v.getMaintenanceType();
 
         for(MaintenanceType mt: typeList ){
-//            typeService.fin
             typesTM.put(mt.getName(),mt);
-
         }
 
-
         Log.d(TAG,typeList.toString());
-        vehicle=v;
+        vehicle =v;
     }
 
 
@@ -134,44 +131,31 @@ public class MaintListAdapter extends BaseCustomAdapter {
         holder.type.setText(type.getName().toUpperCase()+"( "+new Formatter().format("%,d",  type.getDistanceToApply())+" KMs )");
 
 
-        holder.recordCount= (Button) view.findViewById(R.id.b_count);
-        holder.recordCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openMaintByTypeActivity(type,false);
-            }
-        });
+        holder.recordCount= view.findViewById(R.id.b_count);
+        holder.recordCount.setOnClickListener(view12 -> openMaintByTypeActivity(type,false));
 
-        holder.add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openMaintByTypeActivity(type, true);
-            }
-        });
+        holder.add.setOnClickListener(view1 -> openMaintByTypeActivity(type, true));
 
         //delete
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.delete.setOnClickListener(v -> {
 
-                List<MaintenanceTypeSimple> l= new ArrayList<>();
-                l.add(typeList.get(index).toMaintenanceTypeSimple());
+            List<MaintenanceTypeSimple> l= new ArrayList<>();
+            l.add(typeList.get(index).toMaintenanceTypeSimple());
 
-                vehicleService.deleteMaintByVeh(new VehicleMaintenanceTypeSimple(vehicle.getId(), l), new Callback<String>() {
-                    @Override
-                    public void success(String s, Response response) {
+            vehicleService.deleteMaintByVeh(new VehicleMaintenanceTypeSimple(vehicle.getId(), l), new Callback<String>() {
+                @Override
+                public void success(String s, Response response) {
 
-                    }
+                }
 
-                    @Override
-                    public void failure(RetrofitError error) {
+                @Override
+                public void failure(RetrofitError error) {
 
-                    }
-                });
-                typeList.remove(index);
-                notifyDataSetChanged();
+                }
+            });
+            typeList.remove(index);
+            notifyDataSetChanged();
 
-            }
         });
 
         int size=1;//getSqlHelper().getCountMaintenanceByType(type,getDb());
@@ -189,7 +173,6 @@ public class MaintListAdapter extends BaseCustomAdapter {
         myIntent.putExtra("addNew",addNew);
 
         getContext().startActivity(myIntent);
-
     }
 
     public MaintenanceType getType(String d) {
