@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -128,21 +127,16 @@ public  class MaintByTypeActivity extends BaseActivity {
         View v = inflater.inflate(R.layout.activity_add_maint_by_type, null);
         builder.setView(v);
 
-        cost= (EditText) v.findViewById(R.id.et_cost);
-        date= (EditText) v.findViewById(R.id.et_date);
-        desc= (EditText) v.findViewById(R.id.et_description);
-        used= (EditText) v.findViewById(R.id.et_used);
+        cost= v.findViewById(R.id.et_cost);
+        date= v.findViewById(R.id.et_date);
+        desc= v.findViewById(R.id.et_description);
+        used= v.findViewById(R.id.et_used);
 //        recommended= (EditText) v.findViewById(R.id.et_recommended);
-        distanceActual= (EditText) v.findViewById(R.id.et_distance_actual);
+        distanceActual= v.findViewById(R.id.et_distance_actual);
         distanceActual.setText(String.valueOf(vehicle.getDistanceActual()));
 
-        bSave = (Button) v.findViewById(R.id.b_save);
-        bSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickSaveMaintenance(v);
-            }
-        });
+        bSave = v.findViewById(R.id.b_save);
+        bSave.setOnClickListener(this::onClickSaveMaintenance);
 
 
         calendar= Calendar.getInstance();
@@ -151,27 +145,18 @@ public  class MaintByTypeActivity extends BaseActivity {
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        final  DatePickerDialog.OnDateSetListener da = new DatePickerDialog.OnDateSetListener() {
+        final  DatePickerDialog.OnDateSetListener da = (view, year1, monthOfYear, dayOfMonth) -> {
 
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateDateLabel();
-            }
-
+            calendar.set(Calendar.YEAR, year1);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateDateLabel();
         };
 
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        date.setOnClickListener(v1 -> {
 
-                DatePickerDialog dp = new DatePickerDialog(MaintByTypeActivity.this, da, year, month, day);
-                dp.show();
-            }
+            DatePickerDialog dp = new DatePickerDialog(MaintByTypeActivity.this, da, year, month, day);
+            dp.show();
         });
 
         return builder.create();
