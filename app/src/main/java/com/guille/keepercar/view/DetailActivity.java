@@ -8,8 +8,6 @@ import com.guille.keepercar.data.model.Maintenance;
 
 public class DetailActivity extends BaseActivity {
 
-    private Maintenance m;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +20,7 @@ public class DetailActivity extends BaseActivity {
 
 
     private void init() {
-        m = (Maintenance) getIntent().getSerializableExtra("maintenance");
+        Maintenance maintenance = (Maintenance) getIntent().getSerializableExtra("maintenance");
 
         TextView type= (TextView) findViewById(R.id.txt_type_maint);
         TextView cost= (TextView) findViewById(R.id.txt_distance_daily_value);
@@ -32,15 +30,15 @@ public class DetailActivity extends BaseActivity {
         TextView used= (TextView) findViewById(R.id.txt_used);
         TextView distanceDo= (TextView) findViewById(R.id.txt_current_km);
 
-        type.setText(m.getType().getName());
-        cost.setText(" "+m.getCost());
-        date.setText(m.getDate());
+        type.setText(maintenance.getType().getName());
+        cost.setText(" "+ maintenance.getCost());
+        date.setText(maintenance.getDate());
 //        TODO: eliminar esta linea
 //        date.setText(Util.formarDate(m.getDate()));
-        desc.setText(m.getDesc());
+        desc.setText(maintenance.getDesc());
 //        recommended.setText(m.getRecommended());
-        used.setText(m.getUsed());
-        distanceDo.setText(""+m.getDistanceDo());
+        used.setText(maintenance.getUsed());
+        distanceDo.setText(""+ maintenance.getDistanceDo());
 
     }
 //

@@ -100,6 +100,7 @@ class MainActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+
         return true
     }
 
@@ -109,6 +110,7 @@ class MainActivity : BaseActivity() {
 
         loadUser()
         apiLoaderMaintTypeList()
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -131,7 +133,7 @@ class MainActivity : BaseActivity() {
         navigationView.setupWithNavController(navController)
 
         //configuracion menu
-        val menuItem: MenuItem =navigationView.getMenu().findItem(R.id.configuration_section)
+        val menuItem: MenuItem =navigationView.menu.findItem(R.id.configuration_section)
         val config = menuItem.subMenu.findItem(R.id.nav_general)
         config.setOnMenuItemClickListener {
             val myIntent = Intent(this@MainActivity, SettingActivity::class.java)
@@ -146,6 +148,7 @@ class MainActivity : BaseActivity() {
             startActivity(myIntent)
             true
         }
+        drawerLayout.openDrawer(GravityCompat.START)
     }
 
 
@@ -212,17 +215,29 @@ class MainActivity : BaseActivity() {
 
                 //inicio vaidaciones
                 if (item.isEmpty()) {
-                    Toast.makeText(applicationContext,getString(R.string.ms_maint_no_selected),Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.ms_maint_no_selected),
+                        Toast.LENGTH_LONG
+                    ).show()
                     return@OnClickListener
                 }
                 if (maintListAdapter == null) {
-                    Toast.makeText(this@MainActivity,getString(R.string.ms_veh_no_selected),Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.ms_veh_no_selected),
+                        Toast.LENGTH_LONG
+                    ).show()
                     dialog.dismiss()
                     return@OnClickListener
                 }
-                val type =VehicleMaintenceType(vechiveSelected, maintenanceTypeTM!![item])
+                val type = VehicleMaintenceType(vechiveSelected, maintenanceTypeTM!![item])
                 if (type.maintenanceType == null) {
-                    Toast.makeText(this@MainActivity,getString(R.string.ms_maint_type_error),Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.ms_maint_type_error),
+                        Toast.LENGTH_LONG
+                    ).show()
                     return@OnClickListener
                 }
 
@@ -245,16 +260,28 @@ class MainActivity : BaseActivity() {
                             user = null
                             loadNow = true
                             loadUser()
-                            Toast.makeText(this@MainActivity,getString(R.string.ms_maint_saved),Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this@MainActivity,
+                                getString(R.string.ms_maint_saved),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
 
                         override fun failure(error: RetrofitError) {
-                            Toast.makeText(this@MainActivity,getString(R.string.ms_maint_no_saved),Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this@MainActivity,
+                                getString(R.string.ms_maint_no_saved),
+                                Toast.LENGTH_LONG
+                            ).show()
                             Log.e("$TAG save tipo", error.toString())
                         }
                     })
                 } else {
-                    Toast.makeText(this@MainActivity,getString(R.string.ms_maint_exist),Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.ms_maint_exist),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 dialog.dismiss()
             }
