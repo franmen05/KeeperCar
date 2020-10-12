@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -38,18 +39,18 @@ public class AddVehActivity extends BaseActivity {
 
     //ui
     private Spinner spBrand,
-            spYears;
+                    spYears;
 
     private EditText etCurrentKms,
-            etDailyKms,
-            etCarModel;
+                    etDailyKms,
+                    etCarModel;
 
     private Button bSave;
 
     private RadioButton radioButto;
 
     private ArrayAdapter<String> brandsAdapter,
-            yearsAdapter;
+                                 yearsAdapter;
 
     //member
     private User user;
@@ -64,7 +65,7 @@ public class AddVehActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_veh);
-//        setToolbar();
+//        this.setToolbar();
 
         init();
     }
@@ -101,18 +102,6 @@ public class AddVehActivity extends BaseActivity {
 
         vehicleApiAdapter = new ApiAdapter<>();
         service = ((VehicleService) vehicleApiAdapter.getService(VehicleService.class));
-
-    }
-
-    @Override
-    protected void setToolbar() {
-        super.setToolbar();
-        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                close();
-            }
-        });
     }
 
     @Override
@@ -181,12 +170,12 @@ public class AddVehActivity extends BaseActivity {
 
     private List<String> getYearsName() {
 
-        List<String> r = new ArrayList<>();
+        List<String> years= new ArrayList<>();
 
         for (int i = Calendar.getInstance().get(Calendar.YEAR); i >= 1990; i--)
-            r.add(String.valueOf(i));
+            years.add(String.valueOf(i));
 
-        return r;
+        return years;
     }
 
 //
@@ -273,7 +262,7 @@ public class AddVehActivity extends BaseActivity {
             public void failure(RetrofitError error) {
 
                 Toast.makeText(AddVehActivity.this, "No se puedo Guardar el Vehiculo ", Toast.LENGTH_LONG).show();
-                Log.e(TAG,error.getMessage());
+                Log.e(TAG, Objects.requireNonNull(error.getMessage()));
             }
         });
 
@@ -299,10 +288,10 @@ public class AddVehActivity extends BaseActivity {
                     Toast.makeText(AddVehActivity.this, "Para cambiar debe ir a configuracion > Generales", Toast.LENGTH_LONG).show();
                 break;
 
-//            case R.id.rb_mile:
-//                if (checked)
-//                    Toast.makeText(AddVehActivity.this, "millas", Toast.LENGTH_LONG).show();
-//                break;
+            case R.id.rb_mile:
+                if (checked)
+                    Toast.makeText(AddVehActivity.this, "millas", Toast.LENGTH_LONG).show();
+                break;
         }
 
     }
